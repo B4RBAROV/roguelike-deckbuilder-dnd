@@ -2,7 +2,8 @@
 
 class Personagem:
     """Classe base para todos os combatentes."""
-    def __init__(self, nome, hp_max, dano_base, defesa_base, stamina_max=3):
+    # Adicionamos 'atributos=None' no __init__
+    def __init__(self, nome, hp_max, dano_base, defesa_base, stamina_max=3, atributos=None):
         self.nome = nome
         self.hp_max = hp_max
         self.hp_atual = hp_max
@@ -10,9 +11,28 @@ class Personagem:
         self.defesa_base = defesa_base
         self.bloqueio_atual = 0  
         
-        # Mecânica de Stamina
         self.stamina_max = stamina_max
         self.stamina_atual = stamina_max 
+
+        # 🆕 Integração dos Atributos e Modificadores
+        self.atributos = atributos if atributos is not None else {}
+        self.modificadores = self._calcular_modificadores()
+        
+    # Adicione este novo método dentro da classe Personagem em personagem.py
+
+    # Adicione este novo método dentro da classe Personagem em personagem.py
+
+    def _calcular_modificadores(self):
+        modificadores = {}
+        
+        for atributo, score in self.atributos.items():
+            # 1. Cálculo: Usamos // para divisão inteira (ex: 6 // 2 = 3)
+            mod = (score - 10) // 2 
+            
+            # 2. Armazenamento: Adicionamos o resultado ao dicionário
+            modificadores[atributo] = mod
+            
+        return modificadores
 
     # --- Métodos de Combate (já definidos, sem alteração) ---
     def atacar(self, alvo, dano):
