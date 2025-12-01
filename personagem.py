@@ -18,9 +18,46 @@ class Personagem:
         self.atributos = atributos if atributos is not None else {}
         self.modificadores = self._calcular_modificadores()
         
-    # Adicione este novo método dentro da classe Personagem em personagem.py
+        # 🆕 Rastreador de Status Effects:
+        self.status_efeitos = {}
 
-    # Adicione este novo método dentro da classe Personagem em personagem.py
+    def aplicar_status(self, status, duracao):
+        """Adiciona ou atualiza a duração de um Status Effect."""
+        if status in self.status_efeitos:
+            self.status_efeitos[status] = max(self.status_efeitos[status], duracao)
+            print(f"✨ {self.nome} teve o status '{status}' RENOVADO. Duração: {self.status_efeitos[status]}.")
+        else:
+            self.status_efeitos[status] = duracao
+            print(f"💀 {self.nome} recebeu o status '{status}'. Duração inicial: {duracao}.")
+            
+
+    def processar_status(self):
+        """
+        Processa todos os Status Effects ativos:
+        1. Aplica efeitos por turno (se houver).
+        2. Decrementa a duração de cada status.
+        3. Remove status cuja duração chegue a zero.
+        """
+        status_a_remover = []
+        
+        # 📝 Iteramos sobre uma cópia do dicionário para poder modificá-lo
+        for status, duracao in list(self.status_efeitos.items()):
+            
+            # 1. Aplica Efeito (ex: Dano de Veneno, que faremos mais tarde)
+            # Por enquanto, apenas reportamos que o status está ativo
+            print(f"    [Status Ativo] ⏳ {self.nome} está sob efeito de '{status}' ({duracao} turnos restantes).")
+
+            # 2. Decrementa a duração
+            self.status_efeitos[status] -= 1
+            
+            # 3. Verifica se a duração chegou a zero
+            if self.status_efeitos[status] <= 0:
+                status_a_remover.append(status)
+
+        # 4. Remove os status finalizados
+        for status in status_a_remover:
+            del self.status_efeitos[status]
+            print(f"✅ Status '{status}' de {self.nome} expirou e foi removido.")
 
     def _calcular_modificadores(self):
         modificadores = {}
@@ -54,9 +91,13 @@ class Personagem:
 
     # --- Métodos de Turno (Atualizados para Stamina) ---
     def preparar_turno(self):
-        """Prepara o personagem para o início do seu turno."""
+        """Prepara o personagem para o início do seu turno (processa status e zera bloqueio)."""
+        
+        # 🆕 Processa Status Effects antes de qualquer ação ou restauração de recurso
+        self.processar_status() 
+        
         self.bloqueio_atual = 0
-        self.stamina_atual = self.stamina_max # Restaura a Stamina
+        self.stamina_atual = self.stamina_max 
         print(f"⚡ {self.nome} recupera {self.stamina_max} de Stamina.")
 
     def estado(self):
