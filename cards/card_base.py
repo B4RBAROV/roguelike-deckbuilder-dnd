@@ -1,6 +1,9 @@
 # cards/card_base.py
 
+# Em cards/card_base.py
+
 import random
+from utils import rolar_dado, teste_atributo 
 
 class Carta:
     """Classe base abstrata para todas as cartas."""
@@ -80,3 +83,32 @@ class LevantarEscudo(Carta):
 
     def _aplicar_efeito(self, jogador, alvo, crit_ativado):
         jogador.ganhar_bloqueio(self.bloqueio_base)
+
+class Golpe(Carta):
+    """
+    Carta básica de ataque. Dano: 1d8 + FOR.
+    Crítico (d10=10): Aplica Desorientação (1 turno).
+    """
+    def __init__(self):
+        super().__init__(
+            nome="Golpe (1 Mão)", 
+            custo_stamina=2, 
+            descricao="Causa 1d8 + Mod FOR de dano.", 
+            is_critico=True 
+        )
+        self.dado_lados = 8 # d8 de dano
+
+    def _aplicar_efeito(self, jogador, alvo, crit_ativado):
+        # 1. Cálculo de Dano Variável (d8 + Modificador FOR)
+        mod_for = jogador.modificadores.get("FOR", 0) # Obtém o Modificador FOR do Anão (+3)
+        dano_rolado = rolar_dado(self.dado_lados)
+        dano_total = dano_rolado + mod_for
+        
+        # 2. Aplicação do Dano
+        jogador.atacar(alvo, dano_total)
+        
+        # 3. Efeito Crítico (Desorientação)
+        if crit_ativado:
+            alvo.aplicar_status("Desorientação", 1) # Aplica status por 1 turno
+            
+        print(f"  -> Rolagem de Dano: {dano_rolado} + {mod_for} (FOR) = {dano_total} Dano.")

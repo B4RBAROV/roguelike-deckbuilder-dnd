@@ -2,7 +2,7 @@
 
 from personagem import Personagem
 from deck import Deck
-from cards.card_base import AtaqueMartelo, LevantarEscudo 
+from cards.card_base import Golpe, LevantarEscudo 
 
 # --- Dicionários de Atributos ---
 ATRIBUTOS_ANAO = {
@@ -30,8 +30,9 @@ class Heroi(Personagem):
         )
         
         # Criação do Deck Inicial (12 cartas: 5 Ataque, 7 Defesa)
+        # Em combatente.py, dentro de Heroi.__init__
         cartas_iniciais = (
-            [AtaqueMartelo() for _ in range(5)] +
+            [Golpe() for _ in range(5)] +
             [LevantarEscudo() for _ in range(7)]
         )
         
