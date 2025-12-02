@@ -3,7 +3,7 @@
 # Em cards/card_base.py
 
 import random
-from utils import rolar_dado, teste_atributo 
+from utils import rolar_dado, teste_atributo, pausa
 
 class Carta:
     """Classe base abstrata para todas as cartas."""
@@ -106,6 +106,7 @@ class Golpe(Carta):
         
         # 2. Aplicação do Dano
         jogador.atacar(alvo, dano_total)
+        pausa(0.2)
         
         # 3. Efeito Crítico (Desorientação)
         if crit_ativado:

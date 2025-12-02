@@ -24,10 +24,11 @@ class Heroi(Personagem):
             nome=nome, 
             hp_max=50, 
             dano_base=0, 
-            defesa_base=5, 
+            defesa_base=3, 
             stamina_max=3,
             atributos=ATRIBUTOS_ANAO # Passa os atributos
         )
+        self.modo_empunhadura = "1-Mao"
         
         # Criação do Deck Inicial (12 cartas: 5 Ataque, 7 Defesa)
         # Em combatente.py, dentro de Heroi.__init__
@@ -49,7 +50,7 @@ class Inimigo(Personagem):
             nome=nome, 
             hp_max=20, 
             dano_base=7, 
-            defesa_base=2,
+            defesa_base=1,
             stamina_max=0, # Inimigo não usa Stamina/Cartas
             atributos=ATRIBUTOS_GOBLIN # Passa os atributos
         )

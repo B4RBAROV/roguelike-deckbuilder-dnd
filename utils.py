@@ -1,6 +1,12 @@
 # utils.py
 
 import random
+import time # 🆕 Importação necessária para pausas
+
+def pausa(segundos=1):
+    """Pausa a execução do programa por um número de segundos para melhorar a leitura do log de combate."""
+    time.sleep(segundos)
+    
 
 def rolar_dado(lados, rolls=1, vantagem=False, desvantagem=False):
     """
