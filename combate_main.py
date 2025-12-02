@@ -101,6 +101,9 @@ def exibir_hud_combate(heroi, inimigo):
     status_inimigo = ", ".join(
         [f"{s} ({d})" for s, d in inimigo.status_efeitos.items()]
     ) or "Nenhum"
+    
+    # 🆕 Arma do Inimigo (Ponto 5)
+    arma_inimigo = "Adaga Goblin" 
 
     # --- Montagem da Tela de Combate (HUD) ---
     print("\n" + "="*80)
@@ -110,20 +113,25 @@ def exibir_hud_combate(heroi, inimigo):
     print("-" * 80)
     
     # Linha 1: HP
-    print(f"| 💖 HP: {hp_heroi:<10} | {'':<2} | 💖 HP: {hp_inimigo:<10} |")
+    print(f"| 💖 HP: {hp_heroi:<15}  {'':<2} | 💖 HP: {hp_inimigo:<15}")
 
-    # Linha 2: Bloqueio e Modo
-    print(f"| 🛡️ BLOQUEIO: {bloqueio_heroi:<5} | {'':<2} | 🛡️ BLOQUEIO: {bloqueio_inimigo:<5} |")
+    # Linha 2: Bloqueio (Temporário) e Defesa (Base) (Ponto 2)
+    print(f"| 🛡️ DEFESA: {heroi.defesa_base:<2} | Bloqueio: {bloqueio_heroi:<1} | 🛡️ DEFESA: {inimigo.defesa_base:<2} | Bloqueio: {bloqueio_inimigo:<2}")
+    
+    # Linha 3: Stamina (Ponto 3)
+    # ⚠️ Assumindo que o inimigo tem stamina 0/0, ajustamos a exibição
+    stamina_inimigo = f"{inimigo.stamina_atual}/{inimigo.stamina_max}"
+    print(f"| ⚡ STAMINA: {stamina_heroi:<10}  {'':<2} | ⚡ STAMINA: {stamina_inimigo:<10}")
+    
+    # Linha 4: Modo / Status do Heroi (Ponto 4)
+    print(f"| ⚔️ MODO: {modo_empunhadura:<14}  {'':<2} | ⚔️ ARMA: {arma_inimigo:<14}") # 🆕 Inclusão da Arma do Inimigo (Ponto 5)
+    
+    # Linha 5: Status do Heroi / Status do Inimigo
+    print(f"| 💀 STATUS: {status_heroi:<11}  {'':<2} | 💀 STATUS: {status_inimigo:<11}")
 
-    # Linha 3: Stamina / Status
-    print(f"| ⚡ STAMINA: {stamina_heroi:<8} | {'':<2} | 💀 STATUS: {status_inimigo:<29} |")
-    
-    # Linha 4: Status do Heroi
-    print(f"| ⚔️ MODO: {modo_empunhadura:<27} | {'':<2} | {'':<36} |")
-    
     print("="*80)
     
-    # Informação adicional do Deck (Movida para o HUD)
+    # Informação adicional do Deck
     print(f"📚 DECK: Compra: {len(heroi.deck.monte_compra)} | Descarte: {len(heroi.deck.descarte)}")
 
 # --- 3. Execução do Combate ---
